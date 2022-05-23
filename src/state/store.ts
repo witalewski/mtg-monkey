@@ -1,21 +1,18 @@
 import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
-import { Collection } from "../collection/collection.types";
+import { Collection, CardDatabase } from "../types";
 
 const cardsDataSlice = createSlice({
   name: "cardsData",
   initialState: {
-    cardPrices: [],
-    cardsInCollection: {},
+    cardDatabase: [],
+    collection: {},
   },
   reducers: {
-    setCardPrices: (
-      state,
-      action: PayloadAction<{ name: string; price: number }[]>
-    ) => {
-      state.cardPrices = action.payload;
+    setCardPrices: (state, action: PayloadAction<CardDatabase>) => {
+      state.cardDatabase = action.payload;
     },
     setCardsInCollection: (state, action: PayloadAction<Collection>) => {
-      state.cardsInCollection = action.payload;
+      state.collection = action.payload;
     },
   },
 });

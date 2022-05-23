@@ -1,4 +1,4 @@
-import { Collection } from "./collection.types";
+import { Collection } from "../types";
 
 const getCollection = async (showAlerts = false): Promise<Collection> => {
   const validEntryRegex = /^\s*(\d+)\s(.+)$/;

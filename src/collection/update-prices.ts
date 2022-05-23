@@ -1,7 +1,9 @@
-const updatePrices = (deckItems, cardsDatabase) =>
-  deckItems.map((deckItem) => {
-    console.log({ deckItems, cardsDatabase });
-    const matchingCards = cardsDatabase.filter(
+import { Deck, CardDatabase } from "../types";
+
+const updatePrices = (deck: Deck, cardDatabase: CardDatabase) =>
+  deck.map((deckItem) => {
+    console.log({ deck, cardDatabase });
+    const matchingCards = cardDatabase.filter(
       (cardInDb) =>
         cardInDb.name === deckItem.name ||
         (cardInDb.name.startsWith(`${deckItem.name} // `) &&

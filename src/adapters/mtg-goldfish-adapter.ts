@@ -9,7 +9,7 @@ const mtgGoldfishAdapter: WebsiteAdapter = {
       "div#tab-paper table.deck-view-deck-table span.card_id.card_name"
     );
 
-    const deckItems = Array.from(cardNameSpans)
+    const deck = Array.from(cardNameSpans)
       .map((el) => el.parentNode.parentNode)
       .map((row) => {
         const [countTd, nameTd, _manaTd, valueTd] = Array.from(
@@ -26,6 +26,7 @@ const mtgGoldfishAdapter: WebsiteAdapter = {
 
         return {
           name,
+          price: 0,
           count,
           used: 0,
           missing: count,
@@ -33,7 +34,7 @@ const mtgGoldfishAdapter: WebsiteAdapter = {
         };
       });
 
-    return deckItems;
+    return deck;
   },
 
   updateDeckPriceDisplay: (deckPrice, currency) => {

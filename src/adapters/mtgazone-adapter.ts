@@ -4,7 +4,7 @@ const mtgaZoneAdapter = {
   parseDeck: () => {
     const cardDivs = document.querySelectorAll(".card");
 
-    const deckItems = Array.from(cardDivs).map((cardDiv) => {
+    const deck = Array.from(cardDivs).map((cardDiv) => {
       const countDiv = cardDiv.querySelector("div.quantity") as HTMLDivElement;
       const nameAnchor = cardDiv.querySelector("a");
       const priceDiv = cardDiv.querySelector("div.price") as HTMLDivElement;
@@ -23,6 +23,7 @@ const mtgaZoneAdapter = {
 
       return {
         name,
+        price: 0,
         count,
         used: 0,
         missing: count,
@@ -30,7 +31,7 @@ const mtgaZoneAdapter = {
       };
     });
 
-    return deckItems;
+    return deck;
   },
 
   updateDeckPriceDisplay: (deckPrice, currency) => {

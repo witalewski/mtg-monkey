@@ -1,9 +1,9 @@
-import { Collection } from "./collection.types";
+import { Collection, Deck } from "../types";
 
-const updateDeckItemsCount = (deckItems, collection: Collection) => {
+const updateDeckItemsCount = (deck: Deck, collection: Collection) => {
   const leftInCollection = {};
 
-  return deckItems.map((item) => {
+  return deck.map((item) => {
     const { count, name } = item;
     if (!leftInCollection[name]) {
       leftInCollection[name] = collection[name] || 0;

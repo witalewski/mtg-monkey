@@ -26,30 +26,29 @@ const main = async () => {
   console.log("Showing collection management...");
   setupCollectionManagement(getCollectionViewParent());
 
-  store.subscribe(() => {
-    const { cardPrices: cardsDatabase, cardsInCollection: collection } =
-      store.getState();
+  const handleStateUpdate = () => {
+    const { cardDatabase, collection } = store.getState();
 
-    if (!cardsDatabase?.length) {
+    if (!cardDatabase?.length) {
       console.log("Prices not loaded.");
       return;
     }
 
-    console.log("Done.");
-
     console.log("Updating prices...");
-    const deckItems = updatePrices(
+    const deck = updatePrices(
       updateDeckItemsCount(parsedDeck, collection),
-      cardsDatabase
+      cardDatabase
     );
-    const deckPrice = getDeckPrice(deckItems);
+    const deckPrice = getDeckPrice(deck);
 
     console.log("Updating display...");
     updateDeckPriceDisplay(deckPrice, "PLN");
-    updateDeckListDisplay(deckItems);
+    updateDeckListDisplay(deck);
 
     console.log("Done.");
-  });
+  };
+
+  store.subscribe(handleStateUpdate);
 
   console.log("Loading local cards database...");
   getStoredPrices().then((cardPrices) =>

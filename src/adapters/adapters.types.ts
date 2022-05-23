@@ -1,6 +1,8 @@
+import { Deck } from "../types";
+
 export interface WebsiteAdapter {
-  getCollectionViewParent: () => Element;
-  parseDeck: () => any;
+  getCollectionViewParent: () => HTMLElement;
+  parseDeck: () => Deck;
   updateDeckPriceDisplay: (deckPrice: number, currency: string) => void;
-  updateDeckListDisplay: (deckList: any) => void;
+  updateDeckListDisplay: (deck: Deck) => void;
 }

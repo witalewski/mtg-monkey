@@ -8,7 +8,7 @@ const mtgTop8Adapter = {
       'div[style="margin-top:10px;"] .S14'
     );
 
-    const deckItems = Array.from(cardNameSpans).map((cardDiv) => {
+    const deck = Array.from(cardNameSpans).map((cardDiv) => {
       const countDiv = cardDiv.querySelector("div");
       const nameAnchor = cardDiv.querySelector("a");
 
@@ -33,6 +33,7 @@ const mtgTop8Adapter = {
 
       return {
         name,
+        price: 0,
         count,
         used: 0,
         missing: count,
@@ -40,7 +41,7 @@ const mtgTop8Adapter = {
       };
     });
 
-    return deckItems;
+    return deck;
   },
 
   updateDeckPriceDisplay: (deckPrice, currency) => {
