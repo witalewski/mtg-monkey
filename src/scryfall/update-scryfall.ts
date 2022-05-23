@@ -28,7 +28,7 @@ const updateScryfall = (): Promise<
 
     if (shouldUpdate) {
       console.log("Loading remote cards database...");
-      const cards = await gmFetch(downloadUri);
+      const scryfallResult = await gmFetch(downloadUri);
       const currencyRates = await getCurrencyRates("PLN");
 
       var blob = new Blob(
@@ -41,14 +41,14 @@ const updateScryfall = (): Promise<
       var url = URL.createObjectURL(blob);
       var worker = new Worker(url);
 
-      worker.onmessage = async ({ data: processedCards }) => {
-        const processedCardsRaw = await stringifyJsonAsync(processedCards);
-        await GM.setValue(SCRYFALL_CARDS_KEY, processedCardsRaw as string);
+      worker.onmessage = async ({ data: cardsDatabase }) => {
+        const cardsDatabaseJson = await stringifyJsonAsync(cardsDatabase);
+        await GM.setValue(SCRYFALL_CARDS_KEY, cardsDatabaseJson as string);
         await GM.setValue(SCRYFALL_LAST_UPDATED_KEY, updatedAt);
-        resolve({ updated: true, cardDatabase: processedCards });
+        resolve({ updated: true, cardDatabase: cardsDatabase });
       };
 
-      worker.postMessage({ cards, currencyRates });
+      worker.postMessage({ cards: scryfallResult, currencyRates });
     } else {
       console.log("Will skip loading remote cards database.");
       resolve({ updated: false });
