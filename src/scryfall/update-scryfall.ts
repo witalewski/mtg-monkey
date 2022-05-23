@@ -1,9 +1,7 @@
 import gmFetch from "../async-utils/gm-fetch";
-import parseJsonAsync from "../async-utils/parse-json-async";
 import stringifyJsonAsync from "../async-utils/stringify-json-async";
 import {
   BULK_DATA_URL,
-  DEFAULT_CARDS_VALUE,
   DEFAULT_LAST_UPDATED_VALUE,
   SCRYFALL_CARDS_KEY,
   SCRYFALL_LAST_UPDATED_KEY,
