@@ -7,8 +7,11 @@ import {
   SCRYFALL_LAST_UPDATED_KEY,
 } from "../constants";
 import getCurrencyRates from "../currency/get-currency-rates";
+import { CardDatabase } from "../types";
 
-const updateScryfall = (): Promise<Array<any>> =>
+const updateScryfall = (): Promise<
+  { updated: true; cardDatabase: CardDatabase } | { updated: false }
+> =>
   new Promise(async (resolve) => {
     const bulkData = (await gmFetch(BULK_DATA_URL)) as {
       data: any[];
@@ -42,13 +45,13 @@ const updateScryfall = (): Promise<Array<any>> =>
         const processedCardsRaw = await stringifyJsonAsync(processedCards);
         await GM.setValue(SCRYFALL_CARDS_KEY, processedCardsRaw as string);
         await GM.setValue(SCRYFALL_LAST_UPDATED_KEY, updatedAt);
-        resolve(processedCards);
+        resolve({ updated: true, cardDatabase: processedCards });
       };
 
       worker.postMessage({ cards, currencyRates });
     } else {
       console.log("Will skip loading remote cards database.");
-      resolve([]);
+      resolve({ updated: false });
     }
   });
 

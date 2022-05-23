@@ -50,21 +50,21 @@ const main = async () => {
 
   store.subscribe(handleStateUpdate);
 
+  console.log("Loading colection...");
+  getCollection(true).then((collection) =>
+    store.dispatch(setCardsInCollection(collection))
+  );
+
   console.log("Loading local cards database...");
   getStoredPrices().then((cardPrices) =>
     store.dispatch(setCardPrices(cardPrices))
   );
 
-  updateScryfall().then((cardPrices) => {
-    if (cardPrices?.length > 0) {
-      store.dispatch(setCardPrices(cardPrices));
+  updateScryfall().then((result) => {
+    if (result.updated) {
+      store.dispatch(setCardPrices(result.cardDatabase));
     }
   });
-
-  console.log("Loading colection...");
-  getCollection(true).then((collection) =>
-    store.dispatch(setCardsInCollection(collection))
-  );
 };
 
 export default main;
