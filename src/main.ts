@@ -6,6 +6,7 @@ import setupCollectionManagement from "./collection/setup-collection-management"
 import updateScryfall from "./scryfall/update-scryfall";
 import { setCardPrices, setCardsInCollection, store } from "./state/store";
 import { getStoredPrices } from "./state/local-storage";
+import updateDeckItemsCount from "./collection/update-deck-items-count";
 
 const main = async () => {
   const adapter = selectAdapter();
@@ -20,7 +21,7 @@ const main = async () => {
     updateDeckListDisplay,
   } = adapter;
 
-  let parsedDeck;
+  const parsedDeck = getDeckItems({});
 
   console.log("Showing collection management...");
   setupCollectionManagement(getCollectionViewParent());
@@ -34,13 +35,14 @@ const main = async () => {
       return;
     }
 
-    if (!parsedDeck) {
-      parsedDeck = getDeckItems(collection);
-    }
+    console.log("Done.");
+
     console.log("Updating prices...");
-    const deckItems = updatePrices(parsedDeck, cardsDatabase);
+    const deckItems = updatePrices(
+      updateDeckItemsCount(parsedDeck, collection),
+      cardsDatabase
+    );
     const deckPrice = getDeckPrice(deckItems);
-    console.log({ deckItems, deckPrice });
 
     console.log("Updating display...");
     updateDeckPriceDisplay(deckPrice, "PLN");
