@@ -1,6 +1,6 @@
 export interface WebsiteAdapter {
   getCollectionViewParent: () => Element;
-  getDeckItems: (collection: any) => any;
+  parseDeck: () => any;
   updateDeckPriceDisplay: (deckPrice: number, currency: string) => void;
   updateDeckListDisplay: (deckList: any) => void;
 }

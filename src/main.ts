@@ -16,12 +16,12 @@ const main = async () => {
 
   const {
     getCollectionViewParent,
-    getDeckItems,
+    parseDeck,
     updateDeckPriceDisplay,
     updateDeckListDisplay,
   } = adapter;
 
-  const parsedDeck = getDeckItems({});
+  const parsedDeck = parseDeck();
 
   console.log("Showing collection management...");
   setupCollectionManagement(getCollectionViewParent());

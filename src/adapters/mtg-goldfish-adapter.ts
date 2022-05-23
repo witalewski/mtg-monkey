@@ -4,12 +4,10 @@ const mtgGoldfishAdapter: WebsiteAdapter = {
   getCollectionViewParent: () =>
     document.querySelector(".deck-container-information"),
 
-  getDeckItems: (collection) => {
+  parseDeck: () => {
     const cardNameSpans = document.querySelectorAll(
       "div#tab-paper table.deck-view-deck-table span.card_id.card_name"
     );
-
-    const leftInCollection = { ...collection };
 
     const deckItems = Array.from(cardNameSpans)
       .map((el) => el.parentNode.parentNode)
@@ -21,18 +19,6 @@ const mtgGoldfishAdapter: WebsiteAdapter = {
         const count = parseInt(countTd.innerText.trim().match(/\d+/)[0]);
         const name = nameTd.innerText.trim();
 
-        if (!leftInCollection[name]) {
-          leftInCollection[name] = 0;
-        }
-
-        const used = Math.min(leftInCollection[name], count);
-
-        if (used) {
-          leftInCollection[name] = leftInCollection[name] - used;
-        }
-
-        const missing = count - used;
-
         const refs = {
           countTd,
           valueTd,
@@ -41,8 +27,8 @@ const mtgGoldfishAdapter: WebsiteAdapter = {
         return {
           name,
           count,
-          used,
-          missing,
+          used: 0,
+          missing: count,
           refs,
         };
       });

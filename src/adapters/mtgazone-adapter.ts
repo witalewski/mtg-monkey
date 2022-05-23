@@ -1,10 +1,8 @@
 const mtgaZoneAdapter = {
   getCollectionViewParent: () => document.querySelector(".name-container"),
 
-  getDeckItems: (collection) => {
+  parseDeck: () => {
     const cardDivs = document.querySelectorAll(".card");
-
-    const leftInCollection = { ...collection };
 
     const deckItems = Array.from(cardDivs).map((cardDiv) => {
       const countDiv = cardDiv.querySelector("div.quantity") as HTMLDivElement;
@@ -17,18 +15,6 @@ const mtgaZoneAdapter = {
       const count = parseInt(countDiv.innerText.trim().match(/\d+/)[0]);
       const name = nameAnchor.innerText.trim();
 
-      if (!leftInCollection[name]) {
-        leftInCollection[name] = 0;
-      }
-
-      const used = Math.min(leftInCollection[name], count);
-
-      if (used) {
-        leftInCollection[name] = leftInCollection[name] - used;
-      }
-
-      const missing = count - used;
-
       const refs = {
         countDiv,
         nameAnchor,
@@ -38,8 +24,8 @@ const mtgaZoneAdapter = {
       return {
         name,
         count,
-        used,
-        missing,
+        used: 0,
+        missing: count,
         refs,
       };
     });

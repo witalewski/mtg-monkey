@@ -3,12 +3,10 @@ const mtgTop8Adapter = {
     document.querySelector("img[src='/graph/title.png']").parentElement
       .parentElement.parentElement.parentElement,
 
-  getDeckItems: (collection) => {
+  parseDeck: () => {
     const cardNameSpans = document.querySelectorAll(
       'div[style="margin-top:10px;"] .S14'
     );
-
-    const leftInCollection = { ...collection };
 
     const deckItems = Array.from(cardNameSpans).map((cardDiv) => {
       const countDiv = cardDiv.querySelector("div");
@@ -27,18 +25,6 @@ const mtgTop8Adapter = {
 
       cardDiv.appendChild(wrapperDiv);
 
-      if (!leftInCollection[name]) {
-        leftInCollection[name] = 0;
-      }
-
-      const used = Math.min(leftInCollection[name], count);
-
-      if (used) {
-        leftInCollection[name] = leftInCollection[name] - used;
-      }
-
-      const missing = count - used;
-
       const refs = {
         countDiv,
         nameAnchor,
@@ -48,8 +34,8 @@ const mtgTop8Adapter = {
       return {
         name,
         count,
-        used,
-        missing,
+        used: 0,
+        missing: count,
         refs,
       };
     });
