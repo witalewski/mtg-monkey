@@ -15,7 +15,7 @@ const mtgTop8Adapter = {
       const nameAnchor = cardDiv.querySelector("a");
 
       const count = parseInt(countDiv.innerText.trim().match(/\d+/)[0]);
-      const name = nameAnchor.innerText.trim();
+      const name = nameAnchor.innerText.trim().replace(" / ", " // ");
 
       const wrapperDiv = document.createElement("div");
       wrapperDiv.appendChild(countDiv);
