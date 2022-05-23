@@ -4,7 +4,7 @@ const mtgaZoneAdapter = {
   getDeckItems: (collection) => {
     const cardDivs = document.querySelectorAll(".card");
 
-    const leftInCollection = Object.assign(collection);
+    const leftInCollection = { ...collection };
 
     const deckItems = Array.from(cardDivs).map((cardDiv) => {
       const countDiv = cardDiv.querySelector("div.quantity") as HTMLDivElement;

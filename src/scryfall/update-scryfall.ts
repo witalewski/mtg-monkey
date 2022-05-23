@@ -1,13 +1,14 @@
 import gmFetch from "../async-utils/gm-fetch";
 import parseJsonAsync from "../async-utils/parse-json-async";
 import stringifyJsonAsync from "../async-utils/stringify-json-async";
+import {
+  BULK_DATA_URL,
+  DEFAULT_CARDS_VALUE,
+  DEFAULT_LAST_UPDATED_VALUE,
+  SCRYFALL_CARDS_KEY,
+  SCRYFALL_LAST_UPDATED_KEY,
+} from "../constants";
 import getCurrencyRates from "../currency/get-currency-rates";
-
-const BULK_DATA_URL = "https://api.scryfall.com/bulk-data";
-const SCRYFALL_LAST_UPDATED_KEY = "scryfall-last-updated";
-const SCRYFALL_CARDS_KEY = "scryfall-cards";
-const DEFAULT_LAST_UPDATED_VALUE = "2022-01-01";
-const DEFAULT_CARDS_VALUE = "{}";
 
 const updateScryfall = (): Promise<Array<any>> =>
   new Promise(async (resolve) => {
@@ -25,6 +26,7 @@ const updateScryfall = (): Promise<Array<any>> =>
       new Date(updatedAt).getTime() > new Date(cachedVersionDate).getTime();
 
     if (shouldUpdate) {
+      console.log("Loading remote cards database...");
       const cards = await gmFetch(downloadUri);
       const currencyRates = await getCurrencyRates("PLN");
 
@@ -47,10 +49,8 @@ const updateScryfall = (): Promise<Array<any>> =>
 
       worker.postMessage({ cards, currencyRates });
     } else {
-      const cards = (await parseJsonAsync(
-        await GM.getValue(SCRYFALL_CARDS_KEY, DEFAULT_CARDS_VALUE)
-      )) as any[];
-      resolve(cards);
+      console.log("Will skip loading remote cards database.");
+      resolve([]);
     }
   });
 

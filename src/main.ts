@@ -4,12 +4,10 @@ import updatePrices from "./collection/update-prices";
 import getDeckPrice from "./collection/get-deck-price";
 import setupCollectionManagement from "./collection/setup-collection-management";
 import updateScryfall from "./scryfall/update-scryfall";
-import updateDeckItemsCount from "./collection/update-deck-items-count";
+import { setCardPrices, setCardsInCollection, store } from "./state/store";
+import { getStoredPrices } from "./state/local-storage";
 
 const main = async () => {
-  console.log("Loading cards database...");
-  const cardsDatabase = await updateScryfall();
-
   const adapter = selectAdapter();
   if (!adapter) {
     return;
@@ -22,35 +20,50 @@ const main = async () => {
     updateDeckListDisplay,
   } = adapter;
 
-  console.log("Loading colection...");
-  const collection = await getCollection(true);
-
-  console.log("Updating prices...");
-  const deckItems = updatePrices(getDeckItems(collection), cardsDatabase);
-  const deckPrice = getDeckPrice(deckItems);
-
-  console.log("Updating display...");
-  updateDeckPriceDisplay(deckPrice, "PLN");
-  updateDeckListDisplay(deckItems);
+  let parsedDeck;
 
   console.log("Showing collection management...");
-  setupCollectionManagement(
-    getCollectionViewParent(),
-    async () => {
-      console.log("Refreshing collection...");
-      const collection = await getCollection();
+  setupCollectionManagement(getCollectionViewParent());
 
-      const updatedDeckItems = updateDeckItemsCount(deckItems, collection);
-      const deckPrice = getDeckPrice(updatedDeckItems);
+  store.subscribe(() => {
+    const { cardPrices: cardsDatabase, cardsInCollection: collection } =
+      store.getState();
 
-      updateDeckPriceDisplay(deckPrice, "PLN");
-      updateDeckListDisplay(updatedDeckItems);
-      console.log("Done.");
-    },
-    () => {}
+    if (!cardsDatabase?.length) {
+      console.log("Prices not loaded.");
+      return;
+    }
+
+    if (!parsedDeck) {
+      parsedDeck = getDeckItems(collection);
+    }
+    console.log("Updating prices...");
+    const deckItems = updatePrices(parsedDeck, cardsDatabase);
+    const deckPrice = getDeckPrice(deckItems);
+    console.log({ deckItems, deckPrice });
+
+    console.log("Updating display...");
+    updateDeckPriceDisplay(deckPrice, "PLN");
+    updateDeckListDisplay(deckItems);
+
+    console.log("Done.");
+  });
+
+  console.log("Loading local cards database...");
+  getStoredPrices().then((cardPrices) =>
+    store.dispatch(setCardPrices(cardPrices))
   );
 
-  console.log("Done.");
+  updateScryfall().then((cardPrices) => {
+    if (cardPrices?.length > 0) {
+      store.dispatch(setCardPrices(cardPrices));
+    }
+  });
+
+  console.log("Loading colection...");
+  getCollection(true).then((collection) =>
+    store.dispatch(setCardsInCollection(collection))
+  );
 };
 
 export default main;

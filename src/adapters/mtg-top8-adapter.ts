@@ -8,7 +8,7 @@ const mtgTop8Adapter = {
       'div[style="margin-top:10px;"] .S14'
     );
 
-    const leftInCollection = Object.assign(collection);
+    const leftInCollection = { ...collection };
 
     const deckItems = Array.from(cardNameSpans).map((cardDiv) => {
       const countDiv = cardDiv.querySelector("div");

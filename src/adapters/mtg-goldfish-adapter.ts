@@ -9,12 +9,12 @@ const mtgGoldfishAdapter: WebsiteAdapter = {
       "div#tab-paper table.deck-view-deck-table span.card_id.card_name"
     );
 
-    const leftInCollection = Object.assign(collection);
+    const leftInCollection = { ...collection };
 
     const deckItems = Array.from(cardNameSpans)
       .map((el) => el.parentNode.parentNode)
       .map((row) => {
-        const [countTd, nameTd, manaTd, valueTd] = Array.from(
+        const [countTd, nameTd, _manaTd, valueTd] = Array.from(
           row.querySelectorAll("td")
         );
 
