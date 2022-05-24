@@ -1,16 +1,10 @@
 import { Collection } from "../types";
 
-const getCollection = async (showAlerts = false): Promise<Collection> => {
+export const parseCollection = (collectionRaw: string) => {
   const validEntryRegex = /^\s*(\d+)\s(.+)$/;
-  const emptyEntryRegex = /^\s*$/;
 
-  const cardsRaw = (await GM.getValue("collection", "")) as string;
-
-  const cards = cardsRaw.split("\n").reduce((acc: Collection, entry) => {
+  const cards = collectionRaw.split("\n").reduce((acc: Collection, entry) => {
     if (!validEntryRegex.test(entry)) {
-      if (showAlerts && !emptyEntryRegex.test(entry)) {
-        alert(`Couldn't recognize line: ${entry}`);
-      }
       return acc;
     }
 
@@ -21,6 +15,11 @@ const getCollection = async (showAlerts = false): Promise<Collection> => {
   }, {});
 
   return cards;
+};
+
+const getCollection = async (): Promise<Collection> => {
+  const collectionRaw = (await GM.getValue("collection", "")) as string;
+  return parseCollection(collectionRaw);
 };
 
 export default getCollection;

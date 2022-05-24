@@ -1,5 +1,14 @@
 import { setCardsInCollection, store } from "../state/store";
-import getCollection from "./get-collection";
+import { parseCollection } from "./get-collection";
+import { debounce } from "debounce";
+
+const _handleCollectionUpdate = ({ target: { value } }) => {
+  const parsedCards = parseCollection(value);
+  store.dispatch(setCardsInCollection(parsedCards));
+  GM.setValue("collection", value);
+};
+
+const handleCollectionUpdate = debounce(_handleCollectionUpdate, 1000);
 
 const setupCollectionManagement = (parentElement) => {
   let isCollectionOpen = false;
@@ -19,12 +28,7 @@ const setupCollectionManagement = (parentElement) => {
   const collectionInput = document.createElement("textarea");
   collectionInput.rows = 10;
   collectionInput.cols = 120;
-  collectionInput.addEventListener("input", async ({ target }) => {
-    const { value } = target as HTMLTextAreaElement;
-    await GM.setValue("collection", value);
-    const parsedCards = await getCollection(false);
-    store.dispatch(setCardsInCollection(parsedCards));
-  });
+  collectionInput.addEventListener("input", handleCollectionUpdate);
   collectionInputWrapper.appendChild(collectionInput);
 
   manageCollectionButton.addEventListener("click", () => {
