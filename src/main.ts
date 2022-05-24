@@ -51,7 +51,7 @@ const main = async () => {
   store.subscribe(handleStateUpdate);
 
   console.log("Loading colection...");
-  getCollection(true).then((collection) =>
+  getCollection().then((collection) =>
     store.dispatch(setCardsInCollection(collection))
   );
 
