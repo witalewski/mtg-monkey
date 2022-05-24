@@ -1,6 +1,6 @@
 import { setCardsInCollection, store } from "../state/store";
-import { parseCollection } from "./get-collection";
 import { debounce } from "debounce";
+import parseCollection from "./parse-collection";
 
 const _handleCollectionUpdate = ({ target: { value } }) => {
   const parsedCards = parseCollection(value);

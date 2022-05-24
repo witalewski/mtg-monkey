@@ -6,8 +6,6 @@ const TAMPERMONKEY_HEADERS = `// ==UserScript==
 // @name        MTG Monkey
 // @description Price and collection plugin for MTG deck websites
 // @namespace   github.com/cvzi
-// @require     https://unpkg.com/react@17/umd/react.development.js
-// @require     https://unpkg.com/react-dom@17/umd/react-dom.development.js
 // @include     https://www.mtggoldfish.com/archetype/*
 // @include     https://www.mtggoldfish.com/deck/*
 // @include     https://www.mtgtop8.com/event?*
