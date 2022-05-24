@@ -1,11 +1,12 @@
 import { setCardsInCollection, store } from "../state/store";
 import { debounce } from "debounce";
 import parseCollection from "./parse-collection";
+import { COLLECTION_KEY } from "../constants";
 
 const _handleCollectionUpdate = ({ target: { value } }) => {
   const parsedCards = parseCollection(value);
   store.dispatch(setCardsInCollection(parsedCards));
-  GM.setValue("collection", value);
+  GM.setValue(COLLECTION_KEY, value);
 };
 
 const handleCollectionUpdate = debounce(_handleCollectionUpdate, 1000);
@@ -35,7 +36,7 @@ const setupCollectionManagement = (parentElement) => {
     if (!isCollectionOpen) {
       isCollectionOpen = true;
       collectionView.appendChild(collectionInputWrapper);
-      GM.getValue("collection", "").then((value) => {
+      GM.getValue(COLLECTION_KEY, "").then((value) => {
         collectionInput.value = value.toString();
       });
     } else {
