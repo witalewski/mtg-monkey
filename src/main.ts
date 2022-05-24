@@ -5,7 +5,7 @@ import getDeckPrice from "./collection/get-deck-price";
 import setupCollectionManagement from "./collection/setup-collection-management";
 import updateScryfall from "./scryfall/update-scryfall";
 import { setCardPrices, setCardsInCollection, store } from "./state/store";
-import { getStoredPrices } from "./state/local-storage";
+import getStoredPrices from "./scryfall/get-stored-prices";
 import updateDeckItemsCount from "./collection/update-deck-items-count";
 
 const main = async () => {

@@ -1,8 +1,11 @@
 import parseJsonAsync from "../async-utils/parse-json-async";
 import { DEFAULT_CARDS_VALUE, SCRYFALL_CARDS_KEY } from "../constants";
+import { CardDatabase } from "../types";
 
-export const getStoredPrices = async () => {
+const getStoredPrices = async () => {
   return (await parseJsonAsync(
     await GM.getValue(SCRYFALL_CARDS_KEY, DEFAULT_CARDS_VALUE)
-  )) as any[];
+  )) as CardDatabase;
 };
+
+export default getStoredPrices;
