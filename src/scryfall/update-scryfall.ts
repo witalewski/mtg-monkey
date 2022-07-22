@@ -27,9 +27,10 @@ const updateScryfall = (): Promise<
       new Date(updatedAt).getTime() > new Date(cachedVersionDate).getTime();
 
     if (shouldUpdate) {
-      console.log("Loading remote cards database...");
+      console.info("Loading remote cards database...");
       const scryfallResult = await gmFetch(downloadUri);
       const currencyRates = await getCurrencyRates("PLN");
+      console.info("Done.");
 
       var blob = new Blob(
         [
@@ -37,7 +38,6 @@ const updateScryfall = (): Promise<
         ],
         { type: "text/javascript" }
       );
-
       var url = URL.createObjectURL(blob);
       var worker = new Worker(url);
 
@@ -50,7 +50,7 @@ const updateScryfall = (): Promise<
 
       worker.postMessage({ cards: scryfallResult, currencyRates });
     } else {
-      console.log("Will skip loading remote cards database.");
+      console.info("Cards database is up to date.");
       resolve({ updated: false });
     }
   });

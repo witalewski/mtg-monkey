@@ -22,40 +22,39 @@ const main = async () => {
   } = adapter;
 
   const parsedDeck = parseDeck();
-
-  console.log("Showing collection management...");
   setupCollectionManagement(getCollectionViewParent());
 
   const handleStateUpdate = () => {
     const { cardDatabase, collection } = store.getState();
+    console.info("Reacting to state update...");
 
     if (!cardDatabase?.length) {
-      console.log("Prices not loaded.");
+      console.info("Cards database not loaded yet.");
       return;
     }
 
-    console.log("Updating prices...");
+    console.info("Updating prices...");
     const deck = updatePrices(
       updateDeckItemsCount(parsedDeck, collection),
       cardDatabase
     );
     const deckPrice = getDeckPrice(deck);
 
-    console.log("Updating display...");
+    console.info("Updating display...");
     updateDeckPriceDisplay(deckPrice, "PLN");
     updateDeckListDisplay(deck);
 
-    console.log("Done.");
+    console.info("Done.");
   };
 
   store.subscribe(handleStateUpdate);
 
-  console.log("Loading colection...");
+  console.info("Loading colection...");
   getCollection().then((collection) =>
     store.dispatch(setCardsInCollection(collection))
   );
 
-  console.log("Loading local cards database...");
+  console.info("Loading local cards database...");
   getStoredPrices().then((cardPrices) =>
     store.dispatch(setCardPrices(cardPrices))
   );

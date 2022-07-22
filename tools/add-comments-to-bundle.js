@@ -30,11 +30,11 @@ const TAMPERMONKEY_HEADERS = `// ==UserScript==
 const addCommentsToBundle = () =>
   setTimeout(() => {
     try {
-      console.log("🐵 Adding tampermonkey comments to bundle...");
+      console.info("🐵 Adding tampermonkey comments to bundle...");
       const webpackBundle = fs.readFileSync("./dist/bundle.js", "utf8");
       const content = `${TAMPERMONKEY_HEADERS}\n${webpackBundle}\n`;
       fs.writeFileSync("./dist/bundle.user.js", content);
-      console.log("✅ Finished adding tampermonkey comments to bundle.");
+      console.info("✅ Finished adding tampermonkey comments to bundle.");
     } catch (err) {
       console.error(`❌ Failed to add tampermonkey comments to bundle:`);
       console.error(err);

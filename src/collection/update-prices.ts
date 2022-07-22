@@ -2,7 +2,6 @@ import { Deck, CardDatabase } from "../types";
 
 const updatePrices = (deck: Deck, cardDatabase: CardDatabase) =>
   deck.map((deckItem) => {
-    console.log({ deck, cardDatabase });
     const matchingCards = cardDatabase.filter(
       (cardInDb) =>
         cardInDb.name === deckItem.name ||
