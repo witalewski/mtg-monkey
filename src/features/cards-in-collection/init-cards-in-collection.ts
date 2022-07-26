@@ -1,14 +1,14 @@
+import { setCardPrices, setCardsInCollection, store } from "../../state/store";
 import selectAdapter from "./adapters/select-adapter";
-import getCollection from "./collection/get-collection";
-import updatePrices from "./collection/update-prices";
-import getDeckPrice from "./collection/get-deck-price";
-import setupCollectionManagement from "./collection/setup-collection-management";
-import updateScryfall from "./scryfall/update-scryfall";
-import { setCardPrices, setCardsInCollection, store } from "./state/store";
-import getStoredPrices from "./scryfall/get-stored-prices";
-import updateDeckItemsCount from "./collection/update-deck-items-count";
+import getStoredPrices from "./api/scryfall/get-stored-prices";
+import updateScryfall from "./api/scryfall/update-scryfall";
+import getCollection from "./utils/get-collection";
+import getDeckPrice from "./utils/get-deck-price";
+import setupCollectionManagement from "./utils/setup-collection-management";
+import updateDeckItemsCount from "./utils/update-deck-items-count";
+import updatePrices from "./utils/update-prices";
 
-const main = async () => {
+export const initCardsInCollection = () => {
   const adapter = selectAdapter();
   if (!adapter) {
     return;
@@ -65,5 +65,3 @@ const main = async () => {
     }
   });
 };
-
-export default main;

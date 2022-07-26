@@ -1,5 +1,5 @@
 import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
-import { Collection, CardDatabase } from "../types";
+import { Collection, CardDatabase } from "../features/cards-in-collection/types";
 
 const cardsDataSlice = createSlice({
   name: "cardsData",

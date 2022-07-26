@@ -1,13 +1,13 @@
-import gmFetch from "../async-utils/gm-fetch";
-import stringifyJsonAsync from "../async-utils/stringify-json-async";
+import gmFetch from "../../../../utils/gm-fetch";
 import {
   BULK_DATA_URL,
   DEFAULT_LAST_UPDATED_VALUE,
   SCRYFALL_CARDS_KEY,
   SCRYFALL_LAST_UPDATED_KEY,
-} from "../constants";
+} from "../../../../constants";
 import getCurrencyRates from "../currency/get-currency-rates";
-import { CardDatabase } from "../types";
+import { CardDatabase } from "../../types";
+import stringifyJsonAsync from "../../../../utils/stringify-json-async";
 
 const updateScryfall = (): Promise<
   { updated: true; cardDatabase: CardDatabase } | { updated: false }

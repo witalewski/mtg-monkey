@@ -1,3 +1,3 @@
-import main from "./main";
+import { initCardsInCollection } from "./features/cards-in-collection/init-cards-in-collection";
 
-main();
+initCardsInCollection();
