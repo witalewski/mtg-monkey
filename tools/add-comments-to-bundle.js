@@ -11,6 +11,7 @@ const TAMPERMONKEY_HEADERS = `// ==UserScript==
 // @include     https://www.mtgtop8.com/event?*
 // @include     https://mtgtop8.com/event?*
 // @include     https://mtgazone.com/deck/*
+// @include     https://scryfall.com/sets/*
 // @connect     www.floatrates.com
 // @connect     api.scryfall.com
 // @connect     c1.scryfall.com
@@ -24,6 +25,7 @@ const TAMPERMONKEY_HEADERS = `// ==UserScript==
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       GM.xmlHttpRequest
+// @grant       GM.addStyle
 // ==/UserScript==
 `;
 
